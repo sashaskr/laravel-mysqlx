@@ -1,0 +1,45 @@
+{
+  "name": "sashaskr/mysqlx",
+  "description": "MySQL x dev API Eloquent model and query builder for Laravel",
+  "keywords": [
+    "laravel",
+    "eloquent",
+    "mysql",
+    "mysqlx",
+    "xdevapi",
+    "model"
+  ],
+  "homepage": "https://github.com/sashaskr/laravel-mysqlx",
+  "authors": [
+    {
+      "name": "Aleksandr Skripov",
+      "homepage": "https://skripov.co"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "illuminate/support": "^9.0",
+    "illuminate/container": "^9.0",
+    "illuminate/database": "^9.0",
+    "illuminate/events": "^9.0",
+    "ext-mysql_xdevapi": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5.8",
+    "orchestra/testbench": "^7.0",
+    "mockery/mockery": "^1.3.1",
+    "doctrine/dbal": "^2.13.3|^3.1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sashaskr\\Mysqlx\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Sashaskr\\Mysqlx\\MysqlxServiceProvider"
+      ]
+    }
+  }
+}
