@@ -35,6 +35,11 @@
       "Sashaskr\\Mysqlx\\": "src/"
     }
   },
+  "autoload-dev": {
+    "classmap": [
+      "tests/TestCase.php"
+    ]
+  },
   "extra": {
     "laravel": {
       "providers": [

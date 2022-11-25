@@ -2,9 +2,8 @@
 
 namespace Sashaskr\Mysqlx;
 
-use Sashaskr\Database\Connectors\MySqlxConnector;
+use Illuminate\Support\Facades\Config;
 use Sashaskr\Mysqlx\Eloquent\Model;
-use Illuminate\Database\Connectors\MySqlConnector;
 use Illuminate\Support\ServiceProvider;
 
 class MysqlxServiceProvider extends ServiceProvider
@@ -33,20 +32,20 @@ class MysqlxServiceProvider extends ServiceProvider
             });
         });
 
-        // Add connector for queue support.
-        $this->app->resolving('queue', function ($queue) {
-            $queue->addConnector('mysqlx', function () {
-                return new MysqlxConnector($this->app['db']);
-            });
-        });
+        // Add connector for queue support. TODO:
+//        $this->app->resolving('queue', function ($queue) {
+//            $queue->addConnector('mysqlx', function () {
+//                return new MysqlxConnector($this->app['db']);
+//            });
+//        });
     }
 
     private function setMysqlxConfigFromMysql(): void
     {
         // TODO: from ENV?
-        \Config::set(
+        Config::set(
             'database.connections.mysqlx',
-            \Config::get('database.connections.mysql')
+            Config::get('database.connections.mysql')
         );
     }
 }
