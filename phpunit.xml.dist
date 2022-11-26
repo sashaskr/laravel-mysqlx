@@ -21,7 +21,8 @@
         <env name="MYSQL_PORT" value="3306"/>
         <env name="MYSQL_XPORT" value="33060"/>
         <env name="MYSQL_DATABASE" value="unittest"/>
-        <env name="MYSQL_USERNAME" value="root"/>
+        <env name="MYSQL_USERNAME" value="test"/>
+        <env name="MYSQL_PASSWORD" value="test"/>
         <env name="QUEUE_CONNECTION" value="database"/>
     </php>
 </phpunit>

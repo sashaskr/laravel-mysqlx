@@ -95,16 +95,17 @@ class Connection extends BaseConnection
         $host = Arr::get($config, 'host');
         $username = Arr::get($config, 'username');
         $password = Arr::get($config, 'password');
-        $sslMode = (bool)Arr::get($config, 'ssl-mode', false) ? 'enabled' : 'disabled';
+//        $sslMode = (bool)Arr::get($config, 'ssl-mode', false) ?
+//            strtoupper('enabled') :
+//            strtoupper('disabled');
         $xPort = Arr::get($config, 'xport', 33060);
 
         return sprintf(
-            'mysqlx://%s:%s@%s:%d?ssl-mode=%s',
-            $username,
+            'mysqlx://%s%s@%s:%d',
+            $password ? $username. ':' : $username,
             $password,
             $host,
-            $xPort,
-            $sslMode
+            $xPort
         );
     }
 

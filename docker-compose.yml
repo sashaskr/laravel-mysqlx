@@ -3,6 +3,7 @@ version: '3'
 services:
   tests:
     container_name: tests
+    tty: true
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,6 +21,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE: unittest
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     logging:
       driver: none

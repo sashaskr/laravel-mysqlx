@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 class TestCase extends Orchestra\Testbench\TestCase
 {
+    public const MYSQLX_CONNECTION = 'mysqlx';
+
     protected function getApplicationProviders($app)
     {
         return parent::getApplicationProviders($app);

@@ -32,15 +32,7 @@ class Builder extends \Illuminate\Database\Schema\Builder
     {
         $db = $this->connection->getMysqlxSchema();
 
-        $collections = iterator_to_array(
-            $db->getCollections([
-            'filter' => [
-                'name' => $name,
-            ],
-        ]), false
-        );
-
-        return (bool)count($collections);
+        return $db->getCollection($name)->existsInDatabase();
     }
 
     /**
@@ -90,7 +82,7 @@ class Builder extends \Illuminate\Database\Schema\Builder
 
     public function drop($collection)
     {
-        return $this->createBlueprint($collection)->drop();
+        return $this->connection->getMysqlxSchema()->dropCollection($collection);
     }
 
     protected function createBlueprint($collection, Closure $callback = null)
