@@ -2,12 +2,9 @@
 
 namespace Sashaskr\Mysqlx;
 
-use Sashaskr\Mysqlx\PDO\MySqlxDriver;
 use Illuminate\Database\MySqlConnection as BaseConnection;
-use Illuminate\Database\Connectors\ConnectionFactory;
 use Illuminate\Support\Arr;
 
-use PDO;
 use function mysql_xdevapi\getSession;
 
 class Connection extends BaseConnection
@@ -34,13 +31,16 @@ class Connection extends BaseConnection
         $this->useDefaultQueryGrammar();
     }
 
+    /**
+     * @param $dsn
+     * @param array $config
+     * @param array $options
+     * @return \mysql_xdevapi\Session
+     */
     protected function createConnection($dsn, array $config, array $options)
     {
         // By default driver options is an empty array.
         $driverOptions = [];
-
-//        $connection = app(ConnectionFactory::class);
-//        $a = $connection->make($config, 'mysql');
 
         if (isset($config['driver_options']) && is_array($config['driver_options'])) {
             $driverOptions = $config['driver_options'];
@@ -173,5 +173,14 @@ class Connection extends BaseConnection
     {
         $this->connection->rollback();
         $this->transactionsManager->rollback($this->connection, 1);
+    }
+
+    /**
+     * @param $sql
+     * @return \mysql_xdevapi\Result
+     */
+    public function sql($sql)
+    {
+        return $this->connection->sql($sql)->execute();
     }
 }

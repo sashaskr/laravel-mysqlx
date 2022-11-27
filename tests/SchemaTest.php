@@ -46,4 +46,18 @@ class SchemaTest extends TestCase
                 $instance->assertInstanceOf(Blueprint::class, $collection);
             });
     }
+
+    public function testIndex(): void
+    {
+        Schema::connection(self::MYSQLX_CONNECTION)->create('collection1', function($collection) {
+            $collection->index(['col1'], 'idx1', ['col1' => ['type' => 'INTEGER', 'required' => false ]]);
+            $this->assertTrue($collection->hasIndex('idx1'));
+            $this->assertFalse($collection->hasIndex('idx2'));
+
+            $idx1 = $collection->getIndex('idx1');
+            $this->assertEquals('YES', $idx1['Null']);
+            $this->assertEquals(1, $idx1['Non_unique']);
+        });
+
+    }
 }

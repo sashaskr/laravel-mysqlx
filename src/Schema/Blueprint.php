@@ -108,4 +108,27 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
 
         return $this->columns = $columns;
     }
+
+    public function hasIndex($name)
+    {
+        return (bool)$this->getIndex($name);
+    }
+
+    public function getIndex($name)
+    {
+        $db = $this->connection->getMysqlxSchema();
+
+        $sql = sprintf(
+            'SHOW INDEX FROM %s.%s;',
+            $db->getName(),
+            $this->collection->getName()
+        );
+
+        foreach ($this->connection->sql($sql) as $index) {
+            if ($index['Key_name'] === $name) {
+                return $index;
+            }
+        }
+        return false;
+    }
 }
