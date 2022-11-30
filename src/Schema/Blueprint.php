@@ -43,6 +43,11 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
     // TODO: finish it according the php.net
     public function index($columns = null, $name = null, $options = [])
     {
+        return $this->createIndex($columns, $name, $options);
+    }
+
+    private function createIndex($columns = null, $name = null, $options = [], $unique = false)
+    {
         $columns = $this->fluent($columns);
 
         if (is_array($columns) && is_int(key($columns))) {
@@ -73,7 +78,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
 
         $index = [];
         $index['fields'] = $fields;
-
+        $index['unique'] = $unique;
         $this->collection->createIndex($name, json_encode($index, JSON_THROW_ON_ERROR));
 
         return $this;
@@ -85,15 +90,9 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
         return $this;
     }
 
-    public function unique($columns = null, $name = null, $algorithm = null, $options = [])
+    public function unique($columns = null, $name = null, $options = [])
     {
-        $columns = $this->fluent($columns);
-
-        $options['unique'] = true;
-
-        $this->index($columns, $name, $algorithm, $options);
-
-        return $this;
+        return $this->createIndex($columns, $name, $options, true);
     }
 
     protected function fluent($columns = null)

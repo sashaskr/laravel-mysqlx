@@ -55,9 +55,38 @@ class SchemaTest extends TestCase
             $this->assertFalse($collection->hasIndex('idx2'));
 
             $idx1 = $collection->getIndex('idx1');
+
             $this->assertEquals('YES', $idx1['Null']);
             $this->assertEquals(1, $idx1['Non_unique']);
+            $this->assertEquals('idx1', $idx1['Key_name']);
+
+            $collection->index(['col1, col2'], 'idx2', [
+                'col1' => ['type' => 'INTEGER',],
+                'col2' => ['type' => 'TEXT(16)', 'required' => true,],
+            ]);
+
+            $idx2 = $collection->getIndex('idx2');
+            $this->assertEquals('YES', $idx2['Null']);
+            $this->assertEquals(1, $idx2['Non_unique']);
+            $this->assertEquals('idx2', $idx2['Key_name']);
+        });
+    }
+
+    public function testUniqueIndex(): void
+    {
+        $this->markTestSkipped('Test it after unique index functionality will be clear');
+    }
+
+    public function testDropIndex(): void
+    {
+        Schema::connection(self::MYSQLX_CONNECTION)->create('collection3', function ($collection) {
+            $collection->index(['col1'], 'idx1', ['col1' => ['type' => 'INTEGER', 'required' => false]]);
         });
 
+        Schema::connection(self::MYSQLX_CONNECTION)->collection('collection3', function ($collection) {
+            $this->assertTrue($collection->hasIndex('idx1'));
+            $collection->dropIndex('idx1');
+            $this->assertFalse($collection->hasIndex('idx1'));
+        });
     }
 }
