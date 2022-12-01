@@ -89,4 +89,32 @@ class SchemaTest extends TestCase
             $this->assertFalse($collection->hasIndex('idx1'));
         });
     }
+
+    public function testDropIfExistCollection(): void
+    {
+        Schema::connection(self::MYSQLX_CONNECTION)->create('col1', function () {});
+        $this->assertTrue(Schema::connection(self::MYSQLX_CONNECTION)->hasTable('col1'));
+        Schema::connection(self::MYSQLX_CONNECTION)->dropIfExists('col1');
+        $this->assertFalse(Schema::connection(self::MYSQLX_CONNECTION)->hasTable('col1'));
+    }
+
+    /** @test */
+    public function itShouldReturnFalseIfCollectionNotExistWhenDropIfExist(): void
+    {
+        $this->assertFalse(Schema::connection(self::MYSQLX_CONNECTION)->dropIfExists('col2'));
+    }
+
+    /** @test */
+    public function itShouldTrueForHasColumnOrColumns(): void
+    {
+        $this->assertTrue(Schema::connection(self::MYSQLX_CONNECTION)->hasColumn('', ''));
+        $this->assertTrue(Schema::connection(self::MYSQLX_CONNECTION)->hasColumns('',  []));
+    }
+
+    public function testGetAllCollections(): void
+    {
+        Schema::connection(self::MYSQLX_CONNECTION)->create('test1', function () {});
+        Schema::connection(self::MYSQLX_CONNECTION)->create('test2', function () {});
+        $this->assertEquals(['test1', 'test2'], Schema::connection(self::MYSQLX_CONNECTION)->getAllTables());
+    }
 }

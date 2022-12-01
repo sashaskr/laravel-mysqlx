@@ -24,6 +24,9 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
         $this->collection = $this->connection->getCollection($collection);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function __call($method, $args)
     {
         // Dummy.
@@ -90,6 +93,14 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     * @param $columns
+     * @param $name
+     * @param $options
+     * @return $this|\Illuminate\Database\Schema\IndexDefinition|\Illuminate\Support\Fluent|m.\Sashaskr\Mysqlx\Schema\Blueprint.createIndex
+     * @throws \JsonException
+     */
     public function unique($columns = null, $name = null, $options = [])
     {
         return $this->createIndex($columns, $name, $options, true);

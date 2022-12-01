@@ -97,21 +97,6 @@ class Builder extends \Illuminate\Database\Schema\Builder
         }
     }
 
-    public function getCollection($name)
-    {
-        $db = $this->connection->getMysqlxSchema();
-
-        $collections = iterator_to_array(
-            $db->getCollections([
-                'filter' => [
-                    'name' => $name,
-                ],
-            ]), false
-        );
-
-        return count($collections) ? current($collections) : false;
-    }
-
     protected function getAllCollections()
     {
         $collections = [];
